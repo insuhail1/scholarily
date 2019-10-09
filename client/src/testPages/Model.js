@@ -28,7 +28,7 @@ class ModelTahir extends Component {
 			selectedOption: 0,
 			isLoading: true,
 			error: "",
-			timer: 2 * 60
+			timer: 30 * 60
 		};
 		this.startTimer = this.startTimer.bind(this);
 	}

@@ -1,0 +1,94 @@
+.upload-btn-wrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.btn {
+	border: 2px solid gray;
+	color: gray;
+	background-color: white;
+	padding: 8px;
+	border-radius: 8px;
+	font-size: 10px;
+	font-weight: bold;
+}
+.navbar-button {
+	outline: none;
+	color: white;
+	background: none;
+}
+
+.upload-btn-wrapper input[type="file"] {
+	font-size: 20px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+}
+.analysis-header {
+	width: "100%";
+	background-position: "center";
+	background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+		url("https://superdevresources.com/wp-content/uploads/2016/02/40-backgrounds-material.jpg");
+	background-size: "cover";
+	color: white;
+	background-color: "rgba(0, 0, 0, 0.5)";
+	background-repeat: "no-repeat";
+}
+
+.header {
+	height: 800;
+	width: "100%";
+	background-position: "center";
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+		url("https://jpgreatcontent.co.uk/wp-content/uploads/2018/01/teenagers-phones.jpg");
+	background-size: "cover";
+
+	background-color: "rgba(0, 0, 0, 0.5)";
+	background-repeat: "no-repeat";
+}
+.button {
+	background-color: #d5d5d5;
+	border: none;
+	color: black;
+	padding: 0;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	outline: none;
+	margin-right: 2;
+	font-size: 1rem;
+}
+.btn-circle-sm {
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+	font-size: 0.9rem;
+}
+
+.button-round {
+	border-radius: 50%;
+}
+
+.button-rounded-corner {
+	border-radius: 20%;
+}
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+	position: relative;
+	min-height: 1px;
+	padding-right: 10px;
+	padding-left: 10px;
+	width: 20%;
+	float: center;
+}
+
+.bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}

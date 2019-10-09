@@ -1,0 +1,24 @@
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const USER_LOADED = "USER_LOADED";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+export const GET_PROFILE = "GET_PROFILE";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const CLEAR_PROFILE = "CLEAR_PROFILE";
+export const PROFILE_ERROR = "PROFIL_ERROR";
+export const GET_USERS = "GET_USERS";
+export const USERS_ERROR = "USERS_ERROR";
+export const SET_MOBILE = "SET_MOBILE";
+export const GET_SUBJECTS = "GET_SUBJECTS";
+export const SET_TEST_ID = "SET_TEST_ID";
+export const GET_QUESTIONS = "GET_QUESTIONS";
+export const QUESTIONS_ERROR = "QUESTIONS_ERROR";
+export const SUBJECTS_ERROR = "SUBJECTS_ERROR";
+export const GET_SESSION = "GET_SESSION";
+export const SESSION_ERROR = "SESSION_ERROR";
+

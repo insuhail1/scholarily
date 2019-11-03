@@ -8,6 +8,12 @@ import { getAllCurrentSessionTests } from "../actions/tests";
 import styles from "../css";
 import { Link, Redirect } from "react-router-dom";
 import Spinner from "../staticPages/Spinner";
+import {
+	FacebookShareButton,
+	WhatsappShareButton,
+	FacebookIcon,
+	WhatsappIcon
+} from "react-share";
 
 class Result extends Component {
 	constructor(props) {
@@ -24,7 +30,6 @@ class Result extends Component {
 	}
 
 	async calculateScore(answersArray, questionsArray) {
-		
 		console.log(this.props.location.state);
 		var scoreCount = 0,
 			rightAnswersCount = 0,
@@ -32,12 +37,13 @@ class Result extends Component {
 			leftAnswerCount = 0;
 		for (let index = 0; index < answersArray.length; index++) {
 			if (answersArray[index] === questionsArray[index].correct) {
-				scoreCount++;
 				rightAnswersCount++;
 			} else if (Number(answersArray[index]) !== 0) wrongAnswerCount++;
 		}
 		leftAnswerCount =
 			answersArray.length - (rightAnswersCount + wrongAnswerCount);
+
+		scoreCount = 4 * rightAnswersCount - wrongAnswerCount;
 
 		await this.setState({
 			score: scoreCount,
@@ -67,7 +73,7 @@ class Result extends Component {
 		}
 
 		var res = await axios.put(
-			`/profile/rankcount/${this.props.tests.test_id}/college/${this.props.profile.profile.college}`
+			`/profile/${this.props.auth.user._id}/rankcount/${this.props.tests.test_id}/college/${this.props.profile.profile.college}`
 		);
 		res = Object.values(res.data);
 		await this.setState({ allIndiaRank: res[0][0], collegeRank: res[0][1] });
@@ -88,7 +94,7 @@ class Result extends Component {
 			return <Redirect to="/subjects" />;
 		}
 		let { rightAnswers, leftAnswer, wrongAnswers } = this.state;
-		let maxScore = this.props.location.state.answersArray.length;
+		let maxScore = this.props.location.state.answersArray.length * 4;
 		let testName;
 		for (let i = 0; i < this.props.tests.sessionTests.length; i++) {
 			if (this.props.tests.test_id === this.props.tests.sessionTests[i]._id)
@@ -147,6 +153,37 @@ class Result extends Component {
 											</Link>
 											.
 										</Typography>
+										<div className="row col-xs-3 container">
+											Share{" "}
+											<div className="col-xs-4">
+												<WhatsappShareButton
+													title="Just given the test and got a good score on Scholarily!"
+													url={
+														window.location.hostname +
+														"/scorecard/" +
+														this.props.auth.user._id +
+														"/" +
+														this.props.tests.test_id
+													}
+												>
+													<WhatsappIcon size={32} round={true} />
+												</WhatsappShareButton>{" "}
+											</div>
+											<div className="col-xs-4">
+												<FacebookShareButton
+													quote="Just given the test and got a good score on Scholarily!"
+													url={
+														window.location.hostname +
+														"/scorecard/" +
+														this.props.auth.user._id +
+														"/" +
+														this.props.tests.test_id
+													}
+												>
+													<FacebookIcon size={32} round={true} />
+												</FacebookShareButton>
+											</div>
+										</div>
 									</Paper>
 								</Grid>
 							</Grid>

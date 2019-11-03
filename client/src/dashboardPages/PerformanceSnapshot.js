@@ -1,17 +1,6 @@
 import React, { Component, Fragment } from "react";
 import styles from "../css";
-import {
-	Paper,
-	Grid,
-	Typography,
-	Button,
-	Divider,
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow
-} from "@material-ui/core/";
+import { Paper, Typography } from "@material-ui/core/";
 
 import { getQuestions } from "../actions/tests";
 import PropTypes from "prop-types";

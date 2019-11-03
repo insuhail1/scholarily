@@ -19,10 +19,29 @@ router.get("/me", auth, async (req, res) => {
 				.status(400)
 				.json({ msg: "There is no profile for this student" });
 		}
-
 		res.json(profile);
 	} catch (err) {
-		student;
+		console.error(err.message);
+		res.status(500).send("Server Error");
+	}
+});
+
+// @route    GET /profile/:studentID
+// @desc     Get current student profile
+// @access   Public
+router.get("/:studentID", async (req, res) => {
+	try {
+		const profile = await Profile.findOne({
+			student: req.params.studentID
+		}).populate("student", ["name","grade"]);
+
+		if (!profile) {
+			return res
+				.status(400)
+				.json({ msg: "There is no profile for this student" });
+		}
+		res.json(profile);
+	} catch (err) {
 		console.error(err.message);
 		res.status(500).send("Server Error");
 	}
@@ -167,7 +186,6 @@ router.post(
 // @access   private
 router.put("/rank/:test_id", async (req, res) => {
 	try {
-
 		// let rankArray = await Profile.find(
 		// 	{
 		// 		"testRecord.testId": req.params.test_id
@@ -358,10 +376,10 @@ router.put("/rank/:test_id/district/:district", [auth], async (req, res) => {
 	}
 });
 
-// path     /profile/rankcount/:test_id/college/:college
+// path     /profile/:student/rankcount/:test_id/college/:college
 // @desc     To get college wise rankcount of a user for a given testId
 // @access   private
-router.put("/rankcount/:test_id/college/:college", [auth], async (req, res) => {
+router.put("/:student/rankcount/:test_id/college/:college",  async (req, res) => {
 	let { test_id, college } = req.params;
 	try {
 		let collegeRankArray = await Profile.aggregate([
@@ -432,7 +450,7 @@ router.put("/rankcount/:test_id/college/:college", [auth], async (req, res) => {
 		var ranks = [];
 		for (let i = 0; i < indiaRankArray.length; i++) {
 			if (
-				JSON.stringify(req.student.id) ===
+				JSON.stringify(req.params.student) ===
 				JSON.stringify(indiaRankArray[i].student[0]._id)
 			) {
 				ranks.push(i++);
@@ -441,9 +459,8 @@ router.put("/rankcount/:test_id/college/:college", [auth], async (req, res) => {
 		}
 
 		for (let i = 0; i < collegeRankArray.length; i++) {
-
 			if (
-				JSON.stringify(req.student.id) ===
+				JSON.stringify(req.params.student) ===
 				JSON.stringify(collegeRankArray[i].student[0]._id)
 			) {
 				ranks.push(i++);

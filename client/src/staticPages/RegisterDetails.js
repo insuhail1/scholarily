@@ -31,7 +31,8 @@ class RegisterDetails extends Component {
 			mobile: props.auth.mobile,
 			loading: true,
 			name: "",
-			grade: "5"
+			grade: "5",
+			nameError: false
 		};
 	}
 	async componentDidMount() {
@@ -41,12 +42,14 @@ class RegisterDetails extends Component {
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
+		console.log([e.target.name]);
 	}
 
 	async onSubmit(e) {
 		e.preventDefault();
 		let { name, grade, mobile } = this.state;
-		await this.props.register({ name, grade, mobile });
+		!this.state.nameError &&
+			(await this.props.register({ name, grade, mobile }));
 	}
 
 	render() {
@@ -63,13 +66,21 @@ class RegisterDetails extends Component {
 					margin="normal"
 					name="name"
 					value={this.state.name}
-					onChange={e =>
+					onChange={e => {
 						this.setState({
 							[e.target.name]: e.target.value.toUpperCase()
-						})
-					}
+						});
+						if (e.target.value.match(/^[a-zA-Z ]*$/)) {
+							this.setState({ nameError: false });
+						} else this.setState({ nameError: true });
+					}}
 					required
 				/>
+				{this.state.nameError && (
+					<label className="text-danger text-left" style={{ fontSize: 14 }}>
+						Only characters are allowed.
+					</label>
+				)}
 				<FormControl style={styles.textField} align="left">
 					<Select
 						id="standard-search"
@@ -96,6 +107,11 @@ class RegisterDetails extends Component {
 				>
 					Register
 				</Button>
+
+				<p>
+					Please select class 6 while registering. Because Right now, tests are
+					available for 6 class only.
+				</p>
 			</form>
 		);
 
@@ -113,7 +129,10 @@ class RegisterDetails extends Component {
 								backgroundColor: "#0077b5"
 							}
 						}}
-						onClick={() => this.props.login(user._id)}
+						onClick={() => {
+							this.setState({ loading: true });
+							this.props.login(user._id);
+						}}
 					>
 						<Grid
 							container
@@ -175,7 +194,10 @@ class RegisterDetails extends Component {
 					<div style={{ marginTop: 90 }}>
 						<Grid container justify="center">
 							<Grid md={4}>
-								<Paper style={styles.paper}>
+								<Paper
+									style={styles.paper}
+									className="shadow-lg p-3 bg-white rounded"
+								>
 									<div class="text-center">
 										<img
 											src="http://www.lastcampus.com/wp-content/uploads/2019/09/scholarily.png"

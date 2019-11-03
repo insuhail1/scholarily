@@ -106,11 +106,12 @@ class RecentActivities extends Component {
 										<Link
 											onClick={e => {
 												this.props.setTestId(s._id);
-												this.props.history.push({
-													pathname: "/scorecard",
-													state: { test_id: this.props.tests.test_id }
-												});
+												// this.props.history.push({
+												// 	pathname: ,
+												// 	// state: { test_id: this.props.tests.test_id }
+												// });
 											}}
+											to={`/scorecard/${this.props.auth.user._id}/${s._id}`}
 											style={{ textDecoration: "none", color: "#0077b5" }}
 										>
 											Score Card
@@ -125,10 +126,11 @@ class RecentActivities extends Component {
 										<Link
 											onClick={e => {
 												this.props.setTestId(s._id);
-												this.props.history.push({
-													pathname: "/analysis"
-												});
+												// this.props.history.push({
+												// 	pathname: "/analysis"
+												// });
 											}}
+											to="/analysis"
 											style={{ textDecoration: "none", color: "#0077b5" }}
 										>
 											Analysis

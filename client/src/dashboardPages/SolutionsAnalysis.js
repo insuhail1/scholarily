@@ -89,22 +89,15 @@ class ModelTahir extends Component {
 					spacing={3}
 					container
 				>
-					<Grid item md={2} xs={12}>
-						<Paper style={{ backgroundColor: "#E2E5E9" }}>
-							<Typography
-								align="center"
-								variant="h4"
-								style={{ color: "#0077b6", padding: 30 }}
-							>
-								{this.state.questionNo}
-							</Typography>
-						</Paper>
-					</Grid>
+				
 
-					<Grid item md={10}>
-						<Typography variant="h5" component="h5">
-							{question.questionTitle}
+					<Grid item md={12}>
+						
+					 <Typography variant="h6" component="h1">
+					 {this.state.questionNo}.   {question.questionTitle}
 						</Typography>
+
+						
 					</Grid>
 				</Grid>
 				<hr />

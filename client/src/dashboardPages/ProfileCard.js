@@ -10,8 +10,7 @@ class ProfileCard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			file:
-				"https://miro.medium.com/fit/c/256/256/2*yTUBvj9tjLJV1n1ipT6eCg.jpeg"
+			file: "img/user.png"
 		};
 	}
 
@@ -58,15 +57,15 @@ class ProfileCard extends Component {
 									<Avatar
 										alt="Profile Picture"
 										src={
-											this.props.profile.profile.photo
-												? this.props.profile.profile.photo.toString()
-												: "https://miro.medium.com/fit/c/256/256/2*yTUBvj9tjLJV1n1ipT6eCg.jpeg"
+											this.props.auth.user && this.props.auth.user.photo
+												? this.props.auth.user.photo.toString()
+												: "img/user.png"
 										}
 										style={styles.bigAvatar}
 									/>
 								</div>
 							</div>
-							<div class="col-md-12 text-center" style={{paddingBottom:20}}>
+							<div class="col-md-12 text-center" style={{ paddingBottom: 20 }}>
 								<Typography variant="h5" align="center">
 									{this.props.auth.user.name}
 								</Typography>

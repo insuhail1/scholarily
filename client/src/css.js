@@ -50,7 +50,7 @@ const styles = {
 	middleContainerTest: {
 		padding: 20,
 		backgroundColor: "#ffffff",
-		height: "510px"
+		minHeight: "480px"
 	},
 	darkContainer: {
 		padding: "30px",
@@ -69,6 +69,16 @@ const styles = {
 		boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
 		marginTop: "20px",
 		textTransform: "capitalize",
+		borderRadius: "70px"
+	},
+	gradientNavButton: {
+		background: "white",
+		// border: 3,
+		color: "#0077b6",
+		// border: "2px solid #008CBA",
+		outline: "none",
+		height: 48,
+		padding: "0 30px",
 		borderRadius: "70px"
 	},
 	navbarButton: {
@@ -91,11 +101,13 @@ const styles = {
 		outline: "none"
 	},
 	active: {
-		backgroundColor: "orange",
+		backgroundColor: "#0277bd",
+		color: "#ffffff",
+		fontWeight: "600",
 		outline: "none"
 	},
 	visited: {
-		backgroundColor: "red",
+		backgroundColor: "#e53935",
 		color: "white",
 		outline: "none"
 	},
@@ -118,7 +130,7 @@ const styles = {
 		marginTop: 10,
 		marginBottom: 10,
 		color: "#ffffff",
-		borderRadius: "60px"
+		borderRadius: "4px"
 	},
 	letterSpacing: {
 		letterSpacing: "2px"

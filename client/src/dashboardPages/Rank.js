@@ -239,7 +239,7 @@ function EnhancedTable(props) {
 						</div>
 					</div>
 
-					<Paper className={classes.paper}>
+					<Paper className="shadow-lg rounded">
 						<div className={classes.tableWrapper}>
 							<table className="table table-hover">
 								<EnhancedTableHead

@@ -6,7 +6,13 @@ import { connect } from "react-redux";
 import styles from "../css";
 import axios from "axios";
 import Spinner from "../staticPages/Spinner";
-
+import {
+	FacebookShareButton,
+	WhatsappShareButton,
+	FacebookIcon,
+	WhatsappIcon
+} from "react-share";
+var global = [];
 class ScoreCard extends Component {
 	constructor(props) {
 		super(props);
@@ -19,47 +25,69 @@ class ScoreCard extends Component {
 	}
 
 	async componentWillMount() {
-		if (this.props.tests && this.props.tests.test_id === null) {
+		if (
+			this.props.match.params.userID.length === 0 ||
+			this.props.match.params.testID.length === 0
+		) {
 			return <Redirect to="/subjects" />;
 		}
-		for (let i = 0; i < this.props.profile.profile.testRecord.length; i++) {
-			if (
-				this.props.tests.test_id ===
-				this.props.profile.profile.testRecord[i].testId
-			) {
-				await this.setState({
-					givenTestDetails: this.props.profile.profile.testRecord[i]
-				});
+
+		var r = await axios.get(`/profile/${this.props.match.params.userID}`);
+		var profileData = r.data;
+		console.log(profileData);
+
+		var testRecord = profileData.testRecord;
+		var i;
+		for (i = 0; i < testRecord.length; i++) {
+			if (this.props.match.params.testID === testRecord[i].testId) {
 				break;
 			}
 		}
+		console.log(testRecord[i]);
+		await this.setState({
+			givenTestDetails: testRecord[i]
+		});
 
 		var res = await axios.put(
-			`/profile/rankcount/${this.props.tests.test_id}/college/${this.props.profile.profile.college}`
+			`/profile/${this.props.match.params.userID}/rankcount/${this.props.match.params.testID}/college/${profileData.college}`
 		);
 		res = Object.values(res.data);
 		await this.setState({ allIndiaRank: res[0][0], collegeRank: res[0][1] });
 		console.log(this.state.allIndiaRank);
 
+		var sessionTests = await axios.put(
+			`/category/grade/currentsession/${profileData.student.grade}`
+		);
+		sessionTests = sessionTests.data;
+		global = [];
+		global.push({
+			score: testRecord[i].score
+		});
+
+		for (let i = 0; i < sessionTests.length; i++) {
+			console.log(this.props.match.params.testID, sessionTests[i]._id);
+			if (this.props.match.params.testID === sessionTests[i]._id) {
+				global.push({
+					testName: sessionTests[i].test,
+					name: profileData.student.name,
+				});
+
+				console.log(this.props.match.params.testID, sessionTests[i]._id);
+			}
+		}
+		console.log(global);
 		await this.setState({ loading: false });
 	}
+
 	render() {
-		if (this.props.tests && this.props.tests.test_id === null) {
+		if (
+			this.props.match.params.userID.length === 0 ||
+			this.props.match.params.testID.length === 0
+		) {
 			return <Redirect to="/subjects" />;
 		}
-		let {
-			rightAnswers,
-			answersArray,
-			wrongAnswers
-		} = this.state.givenTestDetails;
-		let score = rightAnswers;
-		let maxScore = answersArray.length;
 
-		let testName;
-		for (let i = 0; i < this.props.tests.sessionTests.length; i++) {
-			if (this.props.tests.test_id === this.props.tests.sessionTests[i]._id)
-				testName = this.props.tests.sessionTests[i].test;
-		}
+		let maxScore = 50 * 4;
 
 		return (
 			<Fragment>
@@ -69,11 +97,11 @@ class ScoreCard extends Component {
 					<Fragment>
 						<div style={{ marginTop: 100 }}>
 							<Typography variant="h5" align="center">
-								Scorecard - {testName}
+								Scorecard - {global[1].testName}
 							</Typography>
 							<Grid container justify="center" style={{ marginTop: 20 }}>
 								<Grid item lg={8}>
-									<Paper style={styles.paper}>
+									<Paper style={styles.paper} className="shadow-lg">
 										<Typography
 											component="h5"
 											align="center"
@@ -87,7 +115,7 @@ class ScoreCard extends Component {
 											variant="h1"
 											style={{ color: "#0077b6", padding: 30 }}
 										>
-											{score}
+											{global[0].score}
 											<span style={{ fontSize: 32, color: "black" }}>
 												/{maxScore}
 											</span>
@@ -97,8 +125,12 @@ class ScoreCard extends Component {
 											variant="subtitle1"
 											style={{ marginTop: 20 }}
 										>
-											You've secured{" "}
-											<strong>{this.state.collegeRank + 1} rank</strong> in your
+											<Typography variant="h6" style={{ display: "inline" }}>
+												{" "}
+												{global[1].name}
+											</Typography>{" "}
+											has secured{" "}
+											<strong>{this.state.collegeRank + 1} rank</strong> in
 											college in this test and All India Rank{" "}
 											<strong>{this.state.allIndiaRank + 1}</strong>.
 										</Typography>
@@ -107,14 +139,45 @@ class ScoreCard extends Component {
 											variant="subtitle1"
 											style={{ marginTop: 10 }}
 										>
-											Hurray! You're improving consistently. Have a look
-											in-depth analysis of your performance by going into{" "}
-											<Link to={"/Dashboard"} style={{ color: "#0077b5" }}>
-												{" "}
-												Dashboard section
-											</Link>
-											.
+											Hurray! You're improving consistently.
+											{this.props.auth.user &&
+												this.props.auth.user._id ===
+													this.props.match.params.userID && (
+													<span>
+														{" "}
+														Have a look in-depth analysis of your performance by
+														going into{" "}
+														<Link
+															to={"/Dashboard"}
+															style={{ color: "#0077b5" }}
+														>
+															{" "}
+															Dashboard section
+														</Link>
+														.
+													</span>
+												)}
 										</Typography>
+
+										<div className="row col-xs-3 container">
+											Share{" "}
+											<div className="col-xs-4">
+												<WhatsappShareButton
+													title="Just given the test and got a good score on Scholarily!"
+													url={window.location.href}
+												>
+													<WhatsappIcon size={32} round={true} />
+												</WhatsappShareButton>{" "}
+											</div>
+											<div className="col-xs-4">
+												<FacebookShareButton
+													quote="Just given the test and got a good score on Scholarily!"
+													url={window.location.href}
+												>
+													<FacebookIcon size={32} round={true} />
+												</FacebookShareButton>
+											</div>
+										</div>
 									</Paper>
 								</Grid>
 							</Grid>

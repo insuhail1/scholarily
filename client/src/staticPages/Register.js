@@ -13,26 +13,30 @@ class Register extends Component {
 		super(props);
 		this.state = {
 			mobile: "",
-			file: ""
+			file: "",
+			mobileError: false
 		};
 	}
 
 	async onChange(e) {
-		const re = /^[0-9\b]+$/;
-		// if value is not blank, then test the regex
-
-		if (e.target.value === "" || re.test(e.target.value)) {
-			await this.setState({ [e.target.name]: e.target.value });
-		}
+		this.setState({ [e.target.name]: e.target.value });
+		if (e.target.value.match(/^[0-9]*$/)) {
+			this.setState({ mobileError: false });
+		} else this.setState({ mobileError: true });
 	}
 	onSubmit(e) {
 		e.preventDefault();
-		this.props.history.push({
-			pathname: "/otpvalidation",
-			state: {
-				mobile: this.state.mobile
-			}
-		});
+		if (this.state.mobile.length !== 10) {
+			this.setState({ mobileError: true });
+		} else {
+			this.setState({ mobileError: false });
+			this.props.history.push({
+				pathname: "/otpvalidation",
+				state: {
+					mobile: this.state.mobile
+				}
+			});
+		}
 	}
 
 	render() {
@@ -40,9 +44,9 @@ class Register extends Component {
 			return <Redirect to="/subjects" />;
 		}
 		return (
-			<Grid container justify="center" style={{ marginTop: 90 }}>
+			<Grid container justify="center" className="center">
 				<Grid md={4}>
-					<Paper style={styles.paper}>
+					<Paper style={styles.paper} className="shadow-lg bg-white rounded ">
 						<div class="text-center">
 							<img
 								src="http://www.lastcampus.com/wp-content/uploads/2019/09/scholarily.png"
@@ -51,19 +55,12 @@ class Register extends Component {
 							/>
 						</div>
 
-						<Typography
-							variant="h6"
-							align="center"
-							style={{ marginBottom: 30 }}
-						>
+						<Typography variant="h5" align="center" style={{ marginTop: 10 }}>
 							Let's get started
 						</Typography>
-						<Typography
-							align="center"
-							variant="subtitle1"
-							style={{ paddingTop: 20 }}
-						>
-							Enter your 10 digit mobile no.
+						<Typography align="center" style={{ paddingTop: 10 }}>
+							Enter your 10 digit mobile no to Sign up / Sign in to your
+							Scholarily account.
 						</Typography>
 						<form className="form" onSubmit={e => this.onSubmit(e)}>
 							<TextField
@@ -75,30 +72,23 @@ class Register extends Component {
 								onChange={e => this.onChange(e)}
 								required
 							/>
-							{Number(this.state.mobile.length) !== 10 ? (
-								<Button
-									fullWidth
-									variant="contained"
-									color="secondary"
-									type="submit"
-									value="Login"
-									disabled="true"
-									style={styles.bgPrimaryRoundedButton}
-								>
-									Register
-								</Button>
-							) : (
-								<Button
-									fullWidth
-									variant="contained"
-									color="secondary"
-									type="submit"
-									value="Login"
-									style={styles.bgPrimaryRoundedButton}
-								>
-									Register
-								</Button>
+							{this.state.mobileError && (
+								<p className="text-danger" style={{ fontSize: 14 }}>
+									Enter correct 10 digits of Mobile No.
+								</p>
 							)}
+
+							<Button
+								fullWidth
+								variant="contained"
+								color="secondary"
+								type="submit"
+								value="Login"
+								disabled={this.state.mobileError}
+								style={styles.bgPrimaryRoundedButton}
+							>
+								Register
+							</Button>
 						</form>
 					</Paper>
 				</Grid>

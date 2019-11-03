@@ -11,12 +11,7 @@ import Alert from "./staticPages/Alert";
 import Home from "./staticPages/Home";
 import LogoSpinner from "./staticPages/LogoSpinner";
 import Container from "@material-ui/core/Container";
-import {
-	BrowserRouter as Router,
-	Route,
-	Switch,
-	Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Notfound from "./staticPages/Notfound";
 import Model from "./testPages/Model";
 import Subjects from "./testPages/Subjects";
@@ -36,97 +31,68 @@ import setAuthToken from "./utils/setAuthToken";
 import { PersistGate } from "redux-persist/lib/integration/react";
 
 if (localStorage.token) {
-	setAuthToken(localStorage.token);
+  setAuthToken(localStorage.token);
 }
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true
-		};
-	}
-	componentDidMount() {
-		store.dispatch(loadUser());
-		this.setState({ loading: false });
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+  }
+  componentDidMount() {
+    store.dispatch(loadUser());
+    this.setState({ loading: false });
+  }
 
-	render() {
-		return (
-			<Provider store={store}>
-				<PersistGate persistor={persistor}>
-					<Router>
-						<ThemeProvider theme={theme}>
-							{this.state.loading ? (
-								<LogoSpinner />
-							) : (
-								<Fragment>
-									<Navbar />
-									<div style={{ marginTop: "60px" }}>
-										<Switch>
-											<Route exact path="/" component={Home} />
-											<PrivateRoute exact path="/model" component={Model} />
+  render() {
+    return (
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Router>
+            <ThemeProvider theme={theme}>
+              {this.state.loading ? (
+                <LogoSpinner />
+              ) : (
+                <Fragment>
+                  <Navbar />
+                  <div style={{ marginTop: "60px" }}>
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <PrivateRoute exact path="/model" component={Model} />
 
-											<Container>
-												<Alert style={{ marginTop: "30px" }} />
+                      <Container>
+                        <Alert style={{ marginTop: "30px" }} />
 
-												<Route exact path="/register" component={Register} />
-												<Route exact path="/csv" component={CsvUploader} />
-												<Route
-													exact
-													path="/registerdetails"
-													component={RegisterDetails}
-												/>
-												<Route
-													exact
-													path="/otpvalidation"
-													component={OtpValidation}
-												/>
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/csv" component={CsvUploader} />
+                        <Route exact path="/registerdetails" component={RegisterDetails} />
+                        <Route exact path="/otpvalidation" component={OtpValidation} />
+                        <Route exact path="/scorecard/:userID/:testID" component={ScoreCard} />
 
-												<PrivateRoute
-													exact
-													path="/dashboard"
-													component={Dashboard}
-												/>
-												<PrivateRoute
-													exact
-													path="/editprofile"
-													component={EditProfile}
-												/>
-												<PrivateRoute
-													exact
-													path="/subjects"
-													component={Subjects}
-												/>
-												<PrivateRoute
-													exact
-													path="/scorecard"
-													component={ScoreCard}
-												/>
-												<PrivateRoute exact path="/result" component={Result} />
-												<PrivateRoute
-													exact
-													path="/analysis"
-													component={Analysis}
-												/>
-												<PrivateRoute exact path="/rules" component={Rules} />
-												{/* <Route path="/404" exact={true} component={Notfound} /> */}
-											{/* <Redirect to="/404" /> */}
-
-											</Container>
-										</Switch>
-									</div>
-								</Fragment>
-							)}
-						</ThemeProvider>
-					</Router>
-				</PersistGate>
-			</Provider>
-		);
-	}
+                        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                        <PrivateRoute exact path="/editprofile" component={EditProfile} />
+                        <PrivateRoute exact path="/subjects" component={Subjects} />
+                        <PrivateRoute exact path="/result" component={Result} />
+                        <PrivateRoute exact path="/analysis" component={Analysis} />
+                        <PrivateRoute exact path="/rules" component={Rules} />
+                        {/* <Route path="/404" exact={true} component={Notfound} /> */}
+                        {/* <Redirect to="/404" /> */}
+                      </Container>
+                    </Switch>
+                  </div>
+                </Fragment>
+              )}
+            </ThemeProvider>
+          </Router>
+        </PersistGate>
+      </Provider>
+    );
+  }
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import { Typography, IconButton } from "@material-ui/core/";
+import { Typography, IconButton, Button } from "@material-ui/core/";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -258,7 +258,7 @@ class Navbar extends Component {
 										src={
 											this.props.auth.user && this.props.auth.user.photo
 												? this.props.auth.user.photo.toString()
-												: "https://miro.medium.com/fit/c/256/256/2*yTUBvj9tjLJV1n1ipT6eCg.jpeg"
+												: "img/user.png"
 										}
 										style={styles.avatar}
 									/>
@@ -302,17 +302,14 @@ class Navbar extends Component {
 								</Hidden>
 							</Fragment>
 						) : (
-							<Fragment>
-								<Fab
-									color="inherit"
-									aria-label="edit"
-									style={{ width: 38, height: 38 }}
-									component={Link}
-									to={"/register"}
-								>
-									<PersonAddIcon />
-								</Fab>
-							</Fragment>
+							<Button
+								component={Link}
+								to={"/register"}
+								value="Login"
+								style={styles.gradientNavButton}
+							>
+								Login
+							</Button>
 						)}
 					</div>
 				</Toolbar>

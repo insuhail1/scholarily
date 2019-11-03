@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from "react";
 import {
 	RadioGroup,
+	Hidden,
 	Radio,
 	Paper,
 	Typography,
@@ -28,7 +29,7 @@ class ModelTahir extends Component {
 			selectedOption: 0,
 			isLoading: true,
 			error: "",
-			timer: 30 * 60
+			timer: 60 * 60
 		};
 		this.startTimer = this.startTimer.bind(this);
 	}
@@ -158,31 +159,41 @@ class ModelTahir extends Component {
 
 		const questionModel = (
 			<Fragment>
-				<Grid
-					direction="row"
-					alignItems="flex-end"
-					justifyContent="center"
-					spacing={3}
-					container
-				>
-					<Grid item md={2}>
-						<Paper style={{ backgroundColor: "#E2E5E9" }}>
-							<Typography
-								align="center"
-								variant="h4"
-								style={{ color: "#0077b6", padding: 30 }}
-							>
-								{this.state.questionNo}
-							</Typography>
-						</Paper>
-					</Grid>
+				<Hidden only={["xs", "sm"]}>
+					<Grid
+						direction="row"
+						alignItems="flex-end"
+						justifyContent="center"
+						spacing={2}
+						container
+					>
+						<Grid item md={2}>
+							<Paper>
+								<Typography
+									align="center"
+									variant="h3"
+									style={{
+										backgroundColor: "#E2E5E9",
+										color: "#562C4F",
+										padding: 20
+									}}
+								>
+									{this.state.questionNo}.
+								</Typography>
+							</Paper>
+						</Grid>
 
-					<Grid item md={9}>
-						<Typography variant="h5" component="h5">
-							{question.questionTitle}
-						</Typography>
+						<Grid item md={9}>
+							<Typography variant="h6" component="h6">
+								{question.questionTitle}
+							</Typography>
+						</Grid>
 					</Grid>
-				</Grid>
+				</Hidden>
+				<Hidden only={["md", "lg"]}>
+					<Typography variant="p" style={{ fontWeight: "bold" }}></Typography>
+					{this.state.questionNo}. {question.questionTitle}
+				</Hidden>
 				<hr />
 				<FormControl component="fieldset">
 					<RadioGroup
@@ -199,26 +210,26 @@ class ModelTahir extends Component {
 							onClick={() => this.setState({ selectedOption: "A" })}
 							value="A"
 							control={<Radio />}
-							label={"a. " + question.option0}
+							label={"A. " + question.option0}
 						/>
 
 						<FormControlLabel
 							onClick={() => this.setState({ selectedOption: "B" })}
 							value="B"
 							control={<Radio />}
-							label={"b. " + question.option1}
+							label={"B. " + question.option1}
 						/>
 						<FormControlLabel
 							onClick={() => this.setState({ selectedOption: "C" })}
 							value="C"
 							control={<Radio />}
-							label={"c. " + question.option2}
+							label={"C. " + question.option2}
 						/>
 						<FormControlLabel
 							onClick={() => this.setState({ selectedOption: "D" })}
 							value="D"
 							control={<Radio />}
-							label={"d. " + question.option3}
+							label={"D. " + question.option3}
 						/>
 					</RadioGroup>
 				</FormControl>
@@ -240,57 +251,89 @@ class ModelTahir extends Component {
 					<Fragment>
 						<div class="row" style={styles.container}>
 							<div class="col-md-9">
-								<Paper style={styles.middleContainerTest}>
-									<Paper
-										style={styles.paper}
+								<div
+									class="text-center p-2"
+									style={{ color: "white", backgroundColor: "#0277bd" }}
+								>
+									Time Left{" "}
+									<span
 										id="countDown"
-										style={{ right: 20, position: "absolute", fontSize: 25 }}
-									></Paper>
+										style={{ color: "white", fontSize: 25 }}
+									></span>
+								</div>
+								<Paper style={styles.middleContainerTest}>
 									<div>{questionModel}</div>
 
-									<Button
-										variant="contained"
-										className={"bottom"}
-										style={{
-											backgroundColor: "#e0e0e0",
-											color: "#000000",
-											outline: "none",
-											position: "absolute",
-											bottom: 10,
-											left: 25
-										}}
-										onClick={e => this.clearResponse(e)}
-									>
-										Clear response
-									</Button>
+									<Hidden only={["xs", "sm"]}>
+										<Button
+											variant="contained"
+											className={"bottom"}
+											style={{
+												backgroundColor: "#e0e0e0",
+												color: "#000000",
+												outline: "none",
+												position: "absolute",
+												bottom: 10,
+												left: 25
+											}}
+											onClick={e => this.clearResponse(e)}
+										>
+											Clear response
+										</Button>
 
-									<Button
-										variant="contained"
-										style={{
-											backgroundColor: "#01579b",
-											color: "white",
-											outline: "none",
-											position: "absolute",
-											bottom: 10,
-											right: 25
-										}}
-										onClick={e => this.saveNext(e)}
-									>
-										Save & Next
-									</Button>
+										<Button
+											variant="contained"
+											style={{
+												backgroundColor: "#01579b",
+												color: "white",
+												outline: "none",
+												position: "absolute",
+												bottom: 10,
+												right: 25
+											}}
+											onClick={e => this.saveNext(e)}
+										>
+											Save & Next
+										</Button>
+									</Hidden>
+									<Hidden only={["md", "lg"]}>
+										<Button
+											size="small"
+											variant="contained"
+											className={"bottom"}
+											style={{
+												backgroundColor: "#e0e0e0",
+												color: "#000000",
+												outline: "none",
+												position: "absolute",
+												bottom: 10,
+												left: 25
+											}}
+											onClick={e => this.clearResponse(e)}
+										>
+											Clear response
+										</Button>
+
+										<Button
+											variant="contained"
+											size="small"
+											style={{
+												backgroundColor: "#01579b",
+												color: "white",
+												outline: "none",
+												position: "absolute",
+												bottom: 10,
+												right: 25
+											}}
+											onClick={e => this.saveNext(e)}
+										>
+											Save & Next
+										</Button>
+									</Hidden>
 								</Paper>
 							</div>
 							<div class="col-md-3">
 								<Paper style={styles.rightContainerTest}>
-									<Typography
-										variant="h6"
-										component="h6"
-										align="center"
-										style={{ marginTop: 5 }}
-									>
-										Test Progress
-									</Typography>
-									<hr style={{ marginTop: 5, marginBottom: 10 }} />
 									<div
 										class="row text-center"
 										style={{ marginTop: 10, marginBottom: 10 }}
@@ -301,6 +344,7 @@ class ModelTahir extends Component {
 												className=" btn-circle-sm shadow-sm button button-round"
 												style={{
 													backgroundColor: "#4caf50",
+
 													outline: "none"
 												}}
 											>
@@ -319,17 +363,17 @@ class ModelTahir extends Component {
 									</div>
 
 									<Typography
-										variant="h6"
-										component="h6"
+										variant="subtitle1"
+										component="h1"
 										align="center"
 										style={{ marginTop: 15 }}
 									>
-										Total No. of Questions
+										Questions Board
 									</Typography>
 									<hr style={{ marginTop: 5, marginBottom: 10 }} />
 									<div
 										className="row"
-										style={{ height: "280px", overflowY: "scroll" }}
+										style={{ height: "340px", overflowY: "scroll" }}
 									>
 										{this.state.answersArray.map((q, index) => (
 											<div
@@ -367,6 +411,7 @@ class ModelTahir extends Component {
 										color="primary"
 										variant="contained"
 										onClick={() => this.SubmitTest()}
+										style={{ backgroundColor: "#0277bd" }}
 									>
 										Submit Test
 									</Button>

@@ -22,14 +22,11 @@ class Subjects extends Component {
 		}
 		await this.props.getCurrentProfile();
 
-		this.props.auth && this.props.getSubjects(this.props.auth.user.grade);
+		this.props.auth.user &&
+			this.props.tests.subjects.length === 0 &&
+			this.props.getSubjects(this.props.auth.user.grade);
 		this.setState({ loading: false });
 	}
-
-	// async componentWillMount() {
-	// 	(await this.props.auth) &&
-	// 		this.props.getSubjects(this.props.auth.user.grade);
-	// }
 
 	isGivenTest(testsId) {
 		if (this.props.profile.profile && this.props.profile.profile.testRecord)
@@ -65,7 +62,10 @@ class Subjects extends Component {
 							>
 								{this.props.tests.subjects.map(s => (
 									<div class="col-md-3">
-										<Paper style={{ borderRadius: 10, marginTop: 30 }}>
+										<Paper
+											style={{ borderRadius: 10, marginTop: 30 }}
+											className="shadow-lg  mb-5 bg-white rounded "
+										>
 											<div
 												position="static"
 												color="default"
@@ -111,14 +111,13 @@ class Subjects extends Component {
 																textDecoration: "none",
 																color: "#0077b5"
 															}}
+															to={`/scorecard/${this.props.auth.user._id}/${s._id}`}
 															onClick={e => {
 																this.props.setTestId(s._id);
-																this.props.history.push({
-																	pathname: "/scorecard"
-																});
 															}}
 														>
 															ScoreCard
+															{console.log(s._id)}
 														</Link>
 													)}
 												</div>

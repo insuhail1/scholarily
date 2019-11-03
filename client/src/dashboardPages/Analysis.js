@@ -10,8 +10,8 @@ import Box from "@material-ui/core/Box";
 import PerformanceSnapshot from "./PerformanceSnapshot";
 import { connect } from "react-redux";
 import Rank from "./Rank";
-import styles from "../css";
 import SolutionsAnalysis from "./SolutionsAnalysis";
+import LogicalAndAnalytical from "./LogicalAndAnalytical";
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -84,6 +84,11 @@ const FullWidthTabs = props => {
 									label="Solutions and Analysis"
 									{...a11yProps(2)}
 								/>
+								<Tab
+									style={{ outline: "none" }}
+									label="Mental Assessment"
+									{...a11yProps(3)}
+								/>
 							</Tabs>
 						</AppBar>
 						<SwipeableViews
@@ -99,6 +104,9 @@ const FullWidthTabs = props => {
 							</TabPanel>
 							<TabPanel value={value} index={2} dir={theme.direction}>
 								<SolutionsAnalysis id={props.tests.test_id} />
+							</TabPanel>
+							<TabPanel value={value} index={3} dir={theme.direction}>
+								<LogicalAndAnalytical id={props.tests.test_id} />
 							</TabPanel>
 						</SwipeableViews>
 					</Paper>

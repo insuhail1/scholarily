@@ -32,8 +32,7 @@ class EditProfile extends Component {
 			loading: true,
 			gender: "female",
 			grade: "",
-			file:
-				"https://miro.medium.com/fit/c/256/256/2*yTUBvj9tjLJV1n1ipT6eCg.jpeg",
+			file: "img/user.png",
 			isImageLoading: false,
 			isUpdating: false,
 			states: "",
@@ -127,7 +126,10 @@ class EditProfile extends Component {
 							<div className="col-md-4">
 								<div style={{ marginTop: 20 }}>
 									<form onSubmit={e => this.onSubmit(e)}>
-										<Paper style={{ paddingBottom: 20 }}>
+										<Paper
+											style={{ paddingBottom: 20 }}
+											className="shadow-lg  mb-5 bg-white rounded "
+										>
 											<Paper
 												fullWidth
 												style={{
@@ -151,7 +153,7 @@ class EditProfile extends Component {
 												<div
 													className="upload-btn-wrapper"
 													style={{
-														position: "fixed",
+														position: "absolute",
 														float: "right",
 														marginLeft: 30,
 														marginTop: 60

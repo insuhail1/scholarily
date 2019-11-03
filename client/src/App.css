@@ -4,6 +4,15 @@
 	display: inline-block;
 }
 
+.gradient-text {
+  /* standard gradient background */
+  background: linear-gradient(red, blue);
+
+  /* clip hackery */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .btn {
 	border: 2px solid gray;
 	color: gray;
@@ -91,4 +100,14 @@
 	position: absolute;
 	bottom: 0;
 	left: 0;
+}
+
+
+.center {
+	margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }

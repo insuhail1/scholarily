@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb://eithansuhail:suhail123@ds149040.mlab.com:49040/campusbabu",
-    "jwtSecret": "mysecrettoken"
+    "mongoURI": "",//paste your mongodb url here
+    "jwtSecret": ""//your secret key
 }
